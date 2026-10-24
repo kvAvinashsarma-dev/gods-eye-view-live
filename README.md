@@ -1,3 +1,24 @@
+> ### 🚀 This is a hosted deployment — not the original project
+>
+> **God's Eye View was created by [Bilawal Sidhu](https://github.com/bilawalsidhu).**
+> The original repository lives at
+> **[github.com/bilawalsidhu/gods-eye-view](https://github.com/bilawalsidhu/gods-eye-view)** —
+> star that one, not this one.
+>
+> This repo exists only to put a **click-and-run link** in front of people who
+> don't want to clone anything: **[gods-eye-view-live.vercel.app](https://gods-eye-view-live.vercel.app)**
+>
+> Upstream ships its ~27 data proxies as Vite **dev-server** middleware, so a
+> plain static build of this app has no live data at all. The only substantive
+> change here is a thin adapter (`api/`, `server/`, `scripts/build-api-config.mjs`)
+> that re-mounts those same handlers as a Vercel serverless function. The proxy
+> logic itself is untouched and still lives in `vite.config.js`.
+>
+> Licensed MIT, © Bilawal Sidhu — see [LICENSE](LICENSE). All credit is his.
+> Deployment maintained by [KV Avinash Sarma](https://github.com/kvAvinashsarma-dev).
+
+---
+
 <div align="center">
 
 # 🌐 God's Eye View
