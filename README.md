@@ -6,7 +6,7 @@
 > star that one, not this one.
 >
 > This repo exists only to put a **click-and-run link** in front of people who
-> don't want to clone anything: **[gods-eye-view-live.vercel.app](https://gods-eye-view-live.vercel.app)**
+> don't want to clone anything: **[gods-eye-view-online.vercel.app](https://gods-eye-view-online.vercel.app)**
 >
 > Upstream ships its ~27 data proxies as Vite **dev-server** middleware, so a
 > plain static build of this app has no live data at all. The only substantive
