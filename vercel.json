@@ -4,9 +4,12 @@
   "buildCommand": "node scripts/build-api-config.mjs && vite build",
   "outputDirectory": "dist",
   "functions": {
-    "api/[...path].js": {
+    "api/gateway.js": {
       "maxDuration": 30,
       "memory": 1024
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/gateway?__gevPath=/api/$1" }
+  ]
 }

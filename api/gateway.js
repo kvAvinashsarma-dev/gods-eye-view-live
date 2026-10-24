@@ -123,6 +123,37 @@ function setupStatus(res) {
   sendJson(res, 200, { ...status, store: 'environment', readOnly: true });
 }
 
+/**
+ * Recover the path the caller actually asked for.
+ *
+ * A catch-all filename (api/[...path].js) is the obvious way to take every
+ * /api/* route, but the brackets are also glob syntax in vercel.json's
+ * `functions` key, where [...path] reads as a one-character class. That
+ * mismatch let single-segment paths through and 404'd everything deeper, so
+ * routing is an explicit rewrite instead and the original path arrives as
+ * __gevPath.
+ *
+ * The query string is split by hand rather than through URLSearchParams: a
+ * round trip there re-encodes spaces as '+' and would corrupt the
+ * semicolon-and-comma packed point lists that /api/terrain/heights relies on.
+ */
+function originalRequestUrl(req) {
+  const raw = req.url || '/';
+  const split = raw.indexOf('?');
+  if (split === -1) return raw;
+
+  const query = raw.slice(split + 1);
+  let routed = null;
+  const passthrough = [];
+  for (const pair of query.split('&')) {
+    if (!pair) continue;
+    if (pair.startsWith('__gevPath=')) routed = decodeURIComponent(pair.slice('__gevPath='.length));
+    else passthrough.push(pair);
+  }
+  if (routed === null) return raw;
+  return passthrough.length ? `${routed}?${passthrough.join('&')}` : routed;
+}
+
 export default async function handler(req, res) {
   let routes;
   try {
@@ -133,7 +164,7 @@ export default async function handler(req, res) {
     return sendJson(res, 500, { error: 'API routes unavailable' });
   }
 
-  const originalUrl = req.url || '/';
+  const originalUrl = originalRequestUrl(req);
   const pathname = originalUrl.split('?')[0];
 
   // Handled here rather than by the excluded key-setup plugin.

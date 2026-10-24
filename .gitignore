@@ -17,3 +17,5 @@ pinokio/.installed
 .vercel
 gev-api-config.generated.mjs
 .claude
+
+.vercel
